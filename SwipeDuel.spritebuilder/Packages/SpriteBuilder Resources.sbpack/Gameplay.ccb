@@ -150,7 +150,7 @@
 				<key>displayName</key>
 				<string>Player</string>
 				<key>memberVarAssignmentName</key>
-				<string></string>
+				<string>player</string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -204,7 +204,7 @@
 			</dict>
 		</array>
 		<key>customClass</key>
-		<string></string>
+		<string>Gameplay</string>
 		<key>displayName</key>
 		<string>CCNode</string>
 		<key>memberVarAssignmentName</key>

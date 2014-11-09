@@ -7,6 +7,8 @@
 //
 
 #import "CCNode.h"
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
+@class SessionManager;
 
 typedef NS_ENUM(NSInteger, GameEvent) {
     GameEventReady,
@@ -19,6 +21,13 @@ typedef NS_ENUM(NSInteger, GameEvent) {
     GameEventFizzle
 };
 
-@interface Gameplay : CCNode
+@interface Gameplay : CCNode<MCSessionDelegate>
+
+@property (nonatomic, strong) SessionManager *connectionManager;
+
+@property (nonatomic, assign) BOOL isSwiping, isBusy;
+@property (nonatomic, assign) CGPoint first, last;
+@property (nonatomic, strong) NSMutableArray *swipe;
+@property (nonatomic, strong) NSArray *peers;
 
 @end
