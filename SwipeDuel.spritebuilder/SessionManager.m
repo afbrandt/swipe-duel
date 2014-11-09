@@ -24,11 +24,12 @@ static NSString* const SWIPE_DUEL_SERVICE_KEY = @"swipe-duel-key";
     
     if (self) {
         self.localPeerID = [[MCPeerID alloc] initWithDisplayName:[[UIDevice currentDevice] name]];
-        self.session = [[MCSession alloc] initWithPeer:self.localPeerID];
-        self.browser = [[MCNearbyServiceBrowser alloc] initWithPeer:self.localPeerID serviceType:SWIPE_DUEL_SERVICE_KEY];
-        self.advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.localPeerID discoveryInfo:nil serviceType:SWIPE_DUEL_SERVICE_KEY];
+        self.session = [[MCSession alloc] initWithPeer:self.localPeerID securityIdentity:nil encryptionPreference:MCEncryptionNone];
+        self.browser = [[MCNearbyServiceBrowser alloc] initWithPeer:self.localPeerID serviceType:@"swipe-duel-key"];
+        self.advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.localPeerID discoveryInfo:nil serviceType:@"swipe-duel-key"];
         self.browser.delegate = self;
         self.advertiser.delegate = self;
+        self.session.delegate = self;
     }
 
     return self;
@@ -73,6 +74,7 @@ static NSString* const SWIPE_DUEL_SERVICE_KEY = @"swipe-duel-key";
             NSLog(@"connecting...");
             break;
         case MCSessionStateNotConnected:
+            NSLog(@"not connected!");
         break;
     }
 }
@@ -99,6 +101,7 @@ static NSString* const SWIPE_DUEL_SERVICE_KEY = @"swipe-duel-key";
 #pragma mark - MCNearbyServiceAdvertiserDelegate methods
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void(^)(BOOL accept, MCSession *session))invitationHandler {
     //NSLog([[NSString alloc] initWithData:context encoding:NSASCIIStringEncoding]);
+    NSLog(@"received invite");
     invitationHandler(YES, self.session);
 }
 
@@ -107,10 +110,10 @@ static NSString* const SWIPE_DUEL_SERVICE_KEY = @"swipe-duel-key";
 - (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)remotePeerID withDiscoveryInfo:(NSDictionary *)info {
     BOOL shouldInvite = self.localPeerID.hash < remotePeerID.hash;
     if (shouldInvite && self.connectionState == MCSessionStateNotConnected) {
-        //NSLog(@"inviting peer!");
+        NSLog(@"inviting peer!");
         //NSLog([remotePeerID displayName]);
         NSData *payload = [self.localPeerID.displayName dataUsingEncoding:NSASCIIStringEncoding];
-        [browser invitePeer:remotePeerID toSession:self.session withContext:nil timeout:10];
+        [browser invitePeer:remotePeerID toSession:self.session withContext:nil timeout:0];
     }
 }
 

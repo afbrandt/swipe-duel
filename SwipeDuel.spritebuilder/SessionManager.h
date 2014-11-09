@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Apportable. All rights reserved.
 //
 
-#import "CCNode.h"
-#import "MultipeerConnectivity/MultipeerConnectivity.h"
+#import <Foundation/Foundation.h>
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
 
-@interface SessionManager : CCNode<MCSessionDelegate, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate>
+@interface SessionManager : NSObject <MCSessionDelegate, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate>
 
 @property (nonatomic, strong) MCPeerID *localPeerID;
 @property (nonatomic, strong) MCSession *session;

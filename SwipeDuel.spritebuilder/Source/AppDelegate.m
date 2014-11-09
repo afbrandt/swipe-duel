@@ -54,7 +54,7 @@
     
     [self setupCocos2dWithOptions:cocos2dSetup];
     
-    self.manager = [SessionManager new];
+    _manager = [[SessionManager alloc] init];
     
     return YES;
 }

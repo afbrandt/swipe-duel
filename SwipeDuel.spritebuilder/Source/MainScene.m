@@ -20,7 +20,7 @@
 - (void)onEnter {
     [super onEnter];
     
-    self.appDelegate = (AppController *)[[UIApplication sharedApplication] delegate];
+    _appDelegate = (AppController *)[[UIApplication sharedApplication] delegate];
     startBrowseButton.userInteractionEnabled = YES;
     browsing = NO;
     
@@ -40,15 +40,22 @@
     dialog.position = ccp(0, self.boundingBox.size.height);
     
     CCAction *present = [CCActionMoveTo actionWithDuration:0.3f position:ccp(0,0)];
-    
+    [dialog.animationManager setCompletedAnimationCallbackBlock:^(id sender) {
+        //[[self.appDelegate manager] advertiseSelf:YES];
+        //[[self.appDelegate manager] browse:YES];
+    }];
     [contentNode addChild:dialog];
     [dialog runAction:present];
+    [[self.appDelegate manager] advertiseSelf:YES];
+    [[self.appDelegate manager] browse:YES];
 }
 
 - (void)startGame {
-    Gameplay *gameplay = (Gameplay *)[CCBReader loadAsScene:@"Gameplay"];
-    CCTransition *fade = [CCTransition transitionCrossFadeWithDuration:0.3f];
-    [[CCDirector sharedDirector] replaceScene:gameplay withTransition:fade];
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        Gameplay *gameplay = (Gameplay *)[CCBReader loadAsScene:@"Gameplay"];
+        CCTransition *fade = [CCTransition transitionCrossFadeWithDuration:0.3f];
+        [[CCDirector sharedDirector] replaceScene:gameplay withTransition:fade];
+    });
 }
 
 @end

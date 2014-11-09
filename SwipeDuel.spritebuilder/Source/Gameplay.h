@@ -8,6 +8,17 @@
 
 #import "CCNode.h"
 
+typedef NS_ENUM(NSInteger, GameEvent) {
+    GameEventReady,
+    GameEventEnd,
+    GameEventTap,
+    GameEventUpOne,
+    GameEventDownOne,
+    GameEventLeftOne,
+    GameEventRightOne,
+    GameEventFizzle
+};
+
 @interface Gameplay : CCNode
 
 @end
