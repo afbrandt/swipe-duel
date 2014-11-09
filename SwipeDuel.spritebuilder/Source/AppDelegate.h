@@ -25,9 +25,10 @@
 
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
+#import "SessionManager.h"
 
 @interface AppController : CCAppDelegate
-{
-}
+
+@property (nonatomic, strong) SessionManager *manager;
 
 @end
